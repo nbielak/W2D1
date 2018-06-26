@@ -88,5 +88,8 @@ class Cursor
   end
 
   def update_pos(diff)
+    temp_pos = [cursur_pos[0] + diff[0], cursur_pos[1] + diff[1]]
+    cursor_pos = temp_pos if board.valid_pos?(temp_pos)
+    board[cursuor_pos].colorize(:background => :yellow) 
   end
 end

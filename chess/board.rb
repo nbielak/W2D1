@@ -47,7 +47,6 @@ class Board
     pos.each {|el| return false if el < 0 || el > 7}
     true
   end
-    
 end
 
 # board = Board.new
