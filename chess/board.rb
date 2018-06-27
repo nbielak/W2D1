@@ -2,15 +2,14 @@ require_relative 'piece'
 
 class Board
   
-  attr_reader :grid
+  attr_accessor :grid
   
   def initialize(grid = Board.default_grid)
     @grid = grid
-    populate
   end
   
   def self.default_grid
-    Array.new(8) {Array.new(8) {NullPiece.new}}
+    Array.new(8) {Array.new(8) {NullPiece.instance}}
   end 
   
   def [](pos)
@@ -22,15 +21,6 @@ class Board
   def []=(pos, value)
     x, y = pos 
     @grid[x][y] = value
-  end 
-  
-  def populate 
-    [-2, -1, 0, 1].each do |row|
-      grid[row].map! do |col|
-        col = Piece.new
-      end 
-    end 
-    @grid
   end 
   
   def move_piece(start_pos, end_pos)

@@ -34,7 +34,7 @@ class Cursor
 
   attr_reader :cursor_pos, :board
 
-  def initialize(cursor_pos, board)
+  def initialize(cursor_pos=[0, 0], board)
     @cursor_pos = cursor_pos
     @board = board
   end
@@ -68,7 +68,7 @@ class Cursor
 
       input << STDIN.read_nonblock(2) rescue nil
     end
-
+#
     STDIN.echo = true # the console prints return values again
     STDIN.cooked! # the opposite of raw mode :)
 
@@ -76,10 +76,11 @@ class Cursor
   end
 
   def handle_key(key)
+    
     case key 
-    when :return || :space 
-      cursur_pos
-    when :left || :right || :up || :down
+    when :return, :space 
+      cursor_pos
+    when :left, :right , :up , :down
       update_pos(MOVES[key])
       nil 
     when :ctrl_c
@@ -88,8 +89,8 @@ class Cursor
   end
 
   def update_pos(diff)
-    temp_pos = [cursur_pos[0] + diff[0], cursur_pos[1] + diff[1]]
-    cursor_pos = temp_pos if board.valid_pos?(temp_pos)
-    board[cursuor_pos].colorize(:background => :yellow) 
+    
+    temp_pos = [cursor_pos[0] + diff[0], cursor_pos[1] + diff[1]]
+    @cursor_pos = temp_pos if board.valid_pos?(temp_pos)
   end
 end

@@ -3,18 +3,31 @@ require_relative 'cursor'
 require 'colorize'
 
 class Display
+   attr_reader :render, :board, :cursor 
+   
+  def initialize(board=Board.new)
+    @board = board 
+    @cursor = Cursor.new([0,0], board) 
+  end
   
-  def initialize
+  def test
+    loop do
+      render
+      cursor.get_input
+    end
   end
 
-  def render(board)
-    board.grid.each_with_index do |row, i|
-      puts 
-      
+  def render
+    system("clear")
+    board.grid.each_with_index do |row, i| 
       row.each_with_index do |col, idx|
-        if col.is_a?(NullPiece) && idx.odd? && i.even?
-          print "   ".colorize(:background => :white)
+        
+        if [i,idx] == cursor.cursor_pos
+          print "   ".colorize(:background => :yellow)
           
+        elsif col.is_a?(NullPiece) && idx.odd? && i.even?
+          print "   ".colorize(:background => :white)
+        
         elsif col.is_a?(NullPiece) && idx.odd? && i.odd?
           print "   ".colorize(:background => :black)
           
@@ -37,8 +50,12 @@ class Display
           print " P ".colorize(:background => :black)
         end
       end 
-    end 
-    true
+      puts ""
+    end
+    
+    
   end
    
 end
+
+
